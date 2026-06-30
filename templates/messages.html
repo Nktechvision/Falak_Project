@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Messages</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<h1>📨 Contact Messages</h1>
+
+{% for msg in messages %}
+
+<div>
+
+    <h3>ID: {{ msg[0] }}</h3>
+
+    <p><b>Name:</b> {{ msg[1] }}</p>
+
+    <p><b>Email:</b> {{ msg[2] }}</p>
+
+    <p><b>Message:</b> {{ msg[3] }}</p>
+
+    <hr>
+
+</div>
+
+{% endfor %}
+
+</body>
+</html>

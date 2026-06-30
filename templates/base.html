@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>NKTechVision</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        <a href="/">🚀 NKTechVision</a>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+        <a href="/about">About</a>
+        <a href="/services">Services</a>
+        <a href="/contact">Contact</a>
+
+        {% if session.get("username") %}
+
+            <a href="/admin/messages">Messages</a>
+
+            <a href="/upload">Upload</a>
+
+            <a href="/logout" class="logout">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="/register">Register</a>
+
+            <a href="/login" class="login">
+                Login
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+{% if messages %}
+
+<div class="flash-container">
+
+{% for category, message in messages %}
+
+<div class="flash {{ category }}">
+
+{{ message }}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+{% endwith %}
+
+<hr>
+
+{% block content %}
+
+{% endblock %}
+
+<hr>
+
+<footer>
+
+<p>
+© 2026 NKTechVision
+</p>
+
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NKTechVision Database App</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <h1>Save Your Name</h1>
+    
+
+    <form 
+    action="/profile/upload"
+    method="POST"
+    enctype="multipart/form-data">
+
+        <input
+            type="file"
+            name="photo"
+            required>
+            placeholder="Enter Name">
+
+        <button type="submit">
+            Upload photo
+        </button>
+
+    </form>
+
+    <hr>
+
+    <h2>Saved Users</h2>
+
+    {% for user in users %}
+
+        <p>
+            ID: {{ user[0] }}
+            Name: {{ user[1] }}
+        </p>
+
+    {% endfor %}
+
+</body>
+</html>

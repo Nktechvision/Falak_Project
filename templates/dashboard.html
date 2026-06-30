@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="admin-container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <h2>🚀 NKTechVision</h2>
+
+        <a href="/dashboard">🏠 Dashboard</a>
+
+        <a href="/admin/messages">📨 Messages</a>
+
+        <a href="/upload">📂 Upload</a>
+
+        <a href="/profile">👤 Profile</a>
+
+        <a href="/logout">🚪 Logout</a>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <h1>Welcome {{ session['username'] }}</h1>
+
+        <div class="cards">
+
+            <div class="card">
+                <h2>👥</h2>
+                <h3>Total Users</h3>
+                <h1>{{ total_users }}</h1>
+            </div>
+
+            <div class="card">
+                <h2>📨</h2>
+                <h3>Total Messages</h3>
+                <h1>{{ total_messages }}</h1>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
