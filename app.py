@@ -12,6 +12,9 @@ from routes.python import python
 from models import db
 import os
 
+app = Flask(__name__)
+
+
 app.config["JWT_SECRET_KEY"] = "nktechvision_jwt_secret"
 jwt = JWTManager(app)
 
