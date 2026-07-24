@@ -1,0 +1,77 @@
+/* ==========================
+   QUOTE OF THE DAY
+========================== */
+
+.quote-bar{
+
+    width:100%;
+
+    background:linear-gradient(90deg,#2563eb,#3b82f6);
+
+    color:white;
+
+    padding:18px;
+
+}
+
+.quote-container{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+.quote-container h3{
+
+    font-size:24px;
+
+    margin-bottom:10px;
+
+}
+
+.quote-container p{
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    font-style:italic;
+
+}
+
+.quote-container span{
+
+    display:block;
+
+    margin-top:12px;
+
+    font-size:15px;
+
+    opacity:.9;
+
+}
+
+@media(max-width:768px){
+
+.quote-bar{
+
+    padding:15px;
+
+}
+
+.quote-container h3{
+
+    font-size:20px;
+
+}
+
+.quote-container p{
+
+    font-size:16px;
+
+}
+
+}

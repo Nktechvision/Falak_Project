@@ -1,6 +1,6 @@
 from flask import Blueprint,render_template,request,session,redirect
-import sqlite3
 from werkzeug.utils import secure_filename
+from models import db,User
 
 profile = Blueprint("profile",__name__)
 
@@ -10,20 +10,11 @@ def show_profile():
     if "username" not in session:
         return redirect("/login")
 
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-
-    cursor.execute(
-        "SELECT id, username, created_at,photo  FROM accounts WHERE username = ?",
-        (session["username"],)
-    )
-
-    user = cursor.fetchone()
-
-    conn.close()
+    user = User.query.filter_by(
+        username=session["username"]
+    ).first()
 
     return render_template("profile.html", user=user)
-
 
 @profile.route("/edit-profile", methods=["GET", "POST"])
 def edit_profile():
@@ -31,44 +22,24 @@ def edit_profile():
     if "username" not in session:
         return redirect("/login")
 
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+    user = User.query.filter_by(
+        username=session["username"]
+    ).first()
 
     if request.method == "POST":
 
         new_username = request.form.get("username")
 
-        cursor.execute(
-            """
-            UPDATE accounts
-            SET username = ?
-            WHERE username = ?
-            """,
-            (new_username, session["username"])
-        )
+        user.username = new_username
 
-        conn.commit()
+        db.session.commit()
 
         session["username"] = new_username
 
-        conn.close()
-
         return redirect("/profile")
 
-    cursor.execute(
-        """
-        SELECT username
-        FROM accounts
-        WHERE username = ?
-        """,
-        (session["username"],)
-    )
-
-    user = cursor.fetchone()
-
-    conn.close()
-
     return render_template("edit_profile.html", user=user)
+
 
 @profile.route("/profile/upload", methods=["POST"])
 def profile_upload():
@@ -86,21 +57,29 @@ def profile_upload():
 
     file.save("uploads/" + filename)
 
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
-
-    cursor.execute(
-        """
-        UPDATE accounts
-        SET photo = ?
-        WHERE username = ?
-        """,
-        (filename, session["username"])
-    )
-
-    conn.commit()
-    conn.close()
+    user = User.query.filter_by(username=session["username"]).first()
+    user.photo = filename
+    db.session.commit()
 
     return redirect("/profile")
 
+@profile.route("/delete-account", methods=["POST"])
 
+def delete_account():
+
+    if "username" not in session:
+        return redirect("/login")
+
+    user = User.query.filter_by(
+        username=session["username"]
+    ).first()
+
+    if user:
+
+        db.session.delete(user)
+
+        db.session.commit()
+
+    session.clear()
+
+    return redirect("/")

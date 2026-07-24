@@ -1,41 +1,52 @@
-from flask import Blueprint,render_template,request,redirect,session
-import sqlite3
+from flask import Blueprint,render_template,request,redirect,session,flash
 from werkzeug.security import generate_password_hash,check_password_hash
 from datetime import datetime
-#from models import db.User
+from models import db,User
 
 auth = Blueprint("auth",__name__)
 
 @auth.route("/register", methods=["GET", "POST"])
-def register():
+def register_form():
 
     if request.method == "POST":
 
-        username = request.form.get("username")
+        username = request.form.get("username").strip()
         password = request.form.get("password")
 
+        # Empty validation
+        if not username or not password:
+            return render_template(
+                "register.html",
+                error="Username and Password are required."
+            )
+
+        # Duplicate username check
+        existing_user = User.query.filter_by(username=username).first()
+
+        if existing_user:
+            return render_template(
+                "register.html",
+                error="Username already exists."
+            )
+
         hashed_password = generate_password_hash(password)
+
         created_at = datetime.now().strftime("%d-%m-%Y %H:%M")
 
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
-
-        cursor.execute(
-            """
-            INSERT INTO accounts
-            (username, password, created_at)
-            VALUES (?, ?, ?)
-            """,
-            (username, hashed_password, created_at)
+        user = User(
+            username=username,
+            password=hashed_password,
+            created_at=created_at
         )
 
-        conn.commit()
-        conn.close()
+        db.session.add(user)
+        db.session.commit()
 
-        return redirect("/")
+        flash("Registration successful! Please login.", "success")
+
+        return redirect("/login")
 
     return render_template("register.html")
-
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
@@ -45,33 +56,23 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
+        user = User.query.filter_by(username=username).first()
 
-        cursor.execute(
-            """
-            SELECT * FROM accounts
-            WHERE username = ?
-            """,
-            (username,)
-        )
+        if user and check_password_hash(user.password, password):
 
-        user = cursor.fetchone()
+            print("Login Success")
 
-        print("USER =", user)
-        print("USERNAME =", username)
-        print("PASSWORD =", password)
-        conn.close()
+            session["username"] = user.username
 
-        if user and check_password_hash(user[2], password):
-            print("login success")
-
-            session["username"] = username
+            flash("Welcome to NKTechVision!", "success")
 
             return redirect("/dashboard")
-            print("login failed")
 
-        return "Invalid Username or Password"
+        else:
+
+            flash("Invalid Username or Password!", "danger")
+
+            return redirect("/login")
 
     return render_template("login.html")
 
@@ -140,33 +141,14 @@ def forgot_password():
         if new_password != confirm_password:
             return "❌ Passwords do not match"
 
-        conn = sqlite3.connect("database.db")
-        cursor = conn.cursor()
+        user = User.query.filter_by(username=username).first()
 
-        cursor.execute(
-            "SELECT * FROM accounts WHERE username = ?",
-            (username,)
-        )
-
-        user = cursor.fetchone()
-
-        if not user:
-            conn.close()
+        if user is None:
             return "❌ User not found"
 
-        hashed_password = generate_password_hash(new_password)
+        user.password = generate_password_hash(new_password)
 
-        cursor.execute(
-            """
-            UPDATE accounts
-            SET password = ?
-            WHERE username = ?
-            """,
-            (hashed_password, username)
-        )
-
-        conn.commit()
-        conn.close()
+        db.session.commit()
 
         return redirect("/login")
 

@@ -9,69 +9,81 @@
     <div class="card">
 
         <h2>🆔 User ID</h2>
-        <p>{{ user[0] }}</p>
+        <p>{{ user.id }}</p>
 
         <h2>👤 Username</h2>
-        <p>{{ user[1] }}</p>
+        <p>{{ user.username }}</p>
 
         <h2>📅 Registration Date</h2>
-        <p>{{ user[2] }}</p>
+        <p>{{ user.created_at }}</p>
 
-        {% if user[3] %}
+        {% if user.photo %}
 
-       <img
-       src="/uploads/{{ user[3] }}"
-       width="150"
-       height="150"
-       style="border-radius:50%;">
+        <img
+            src="/uploads/{{ user.photo }}"
+            width="150"
+            height="150"
+            style="border-radius:50%;">
 
-      {% else %}
+        {% else %}
 
-      <img
-      src="https://via.placeholder.com/150"
-      width="150"
-      height="150"
-      style="border-radius:50%;">
+        <img
+            src="https://via.placeholder.com/150"
+            width="150"
+            height="150"
+            style="border-radius:50%;">
 
-{% endif %}
+        {% endif %}
 
-<form action="/profile/upload"
-      method="POST"
-      enctype="multipart/form-data">
+        <form action="/profile/upload"
+              method="POST"
+              enctype="multipart/form-data">
 
-    <input
-        type="file"
-        name="photo"
-        accept="image/*"
-        required>
+            <input
+                type="file"
+                name="photo"
+                accept="image/*"
+                required>
 
-    <br><br>
+            <br><br>
 
-    <button type="submit">
-        📤 Upload Photo
+            <button type="submit">
+                📤 Upload Photo
+            </button>
+
+        </form>
+
+        <br><br>
+
+        <a href="/edit-profile">
+            <button type="button">
+                ✏️ Edit Profile
+            </button>
+        </a>
+
+        <br><br>
+
+        <a href="/change-password">
+            <button type="button">
+                🔒 Change Password
+            </button>
+        </a>
+
+        <br><br>
+
+        <a href="/forgot-password">
+            <button type="button">
+                Forgot Password
+            </button>
+        </a>
+<form action="/delete-account" method="POST"
+      onsubmit="return confirm('Are you sure? This account will be permanently deleted.')">
+
+    <button
+        type="submit"
+        style="background:red; color:white;">
+        🗑️ Delete Account
     </button>
-
-    <br><br>
-
-    <a href="/edit-profile">
-    <button type="button">
-        ✏️ Edit Profile
-    </button>
-   </a>
-   
-   <br><br>
-   <a href="/change-password">
-    <button type="button">
-        🔒 Change Password
-    </button>
-   </a>
-
-   <br><br>
-   <a href="/change-password">
-   <button type="button">
-         Forgot Password
-    </button>
-   </a>
 
 </form>
 

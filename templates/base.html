@@ -3,56 +3,257 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<title>NKTechVision</title>
+    <title>NKTechVision</title>
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/navbar.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/quote.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/cards.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/categories.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/why.css') }}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet"
+         href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+
+    <link rel="stylesheet"
+         href="{{ url_for('static', filename='css/hero.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/flash.css') }}">
 
 </head>
 
 <body>
 
+<!-- Navbar Starts -->
+
+<header>
+
 <nav class="navbar">
 
     <div class="logo">
-        <a href="/">🚀 NKTechVision</a>
+        <a href="/">
+            🚀 NKTechVision
+        </a>
     </div>
 
     <div class="nav-links">
 
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-        <a href="/services">Services</a>
-        <a href="/contact">Contact</a>
+        <a href="/">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </a>
+
+        <a href="/tutorials">
+            <i class="fa-solid fa-book-open"></i>
+            Tutorials
+        </a>
+
+        <a href="/projects">
+            <i class="fa-solid fa-laptop-code"></i>
+            Projects
+        </a>
+
+        <a href="/apis">
+            <i class="fa-solid fa-code"></i>
+            APIs
+        </a>
+
+        <a href="/blog">
+            <i class="fa-solid fa-newspaper"></i>
+            Blog
+        </a>
+
+        <a href="/about">
+            <i class="fa-solid fa-circle-info"></i>
+            About
+        </a>
+
+        <a href="/contact">
+            <i class="fa-solid fa-envelope"></i>
+            Contact
+        </a>
+
+    </div>
+
+    <div class="nav-right">
+
+        <button id="theme-btn">
+            🌙
+        </button>
 
         {% if session.get("username") %}
 
-            <a href="/admin/messages">Messages</a>
+        <a href="/dashboard">
+            <i class="fa-solid fa-table-columns"></i>
+            Dashboard
+        </a>
 
-            <a href="/upload">Upload</a>
+        <a href="/profile">
+            <i class="fa-solid fa-user"></i>
+            Profile
+        </a>
 
-            <a href="/logout" class="logout">
-                Logout
-            </a>
+        <a href="/logout" class="logout-btn">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
 
         {% else %}
 
-            <a href="/register">Register</a>
+        <a href="/login" class="login-btn">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            Login
+        </a>
 
-            <a href="/login" class="login">
-                Login
-            </a>
+        <a href="/register" class="register-btn">
+            <i class="fa-solid fa-user-plus"></i>
+            Register
+        </a>
 
         {% endif %}
 
     </div>
 
+    <div class="menu-btn">
+
+    <i class="fa-solid fa-bars"></i>
+
+</div>
+
+<div class="mobile-menu">
+
+<div class="close-menu">
+
+    <i class="fa-solid fa-xmark"></i>
+
+</div>
+
+    <a href="/">
+        <i class="fa-solid fa-house"></i>
+        Home
+    </a>
+
+    <a href="/tutorials">
+        <i class="fa-solid fa-book-open"></i>
+        Tutorials
+    </a>
+
+    <a href="/projects">
+        <i class="fa-solid fa-laptop-code"></i>
+        Projects
+    </a>
+
+    <a href="/apis">
+        <i class="fa-solid fa-code"></i>
+        APIs
+    </a>
+
+    <a href="/blog">
+        <i class="fa-solid fa-newspaper"></i>
+        Blog
+    </a>
+
+    <a href="/about">
+        <i class="fa-solid fa-circle-info"></i>
+        About
+    </a>
+
+    <a href="/contact">
+        <i class="fa-solid fa-envelope"></i>
+        Contact
+    </a>
+
+    {% if session.get("username") %}
+
+    <a href="/dashboard">
+        <i class="fa-solid fa-table-columns"></i>
+        Dashboard
+    </a>
+
+    <a href="/profile">
+        <i class="fa-solid fa-user"></i>
+        Profile
+    </a>
+
+    <a href="/logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+    </a>
+
+    {% else %}
+
+    <a href="/login">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Login
+    </a>
+
+    <a href="/register">
+        <i class="fa-solid fa-user-plus"></i>
+        Register
+    </a>
+
+    {% endif %}
+
+</div>
+       
+    
+
 </nav>
+
+</header>
+
+<!-- End Navbar -->
+
+<!-- Flash Message -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+{% if messages %}
+
+<div class="flash-container">
+
+{% for category, message in messages %}
+
+<div class="flash-message {{ category }}">
+
+<span>{{ message }}</span>
+
+<button class="close-flash">&times;</button>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+{% endwith %}
+
+<!-- End Flash Message -->
 
 {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -76,21 +277,122 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
 {% endwith %}
 
-<hr>
+<main>
 
 {% block content %}
 
 {% endblock %}
 
-<hr>
+</main>
 
-<footer>
+<footer class="footer">
 
-<p>
-© 2026 NKTechVision
-</p>
+    <div class="footer-container">
+
+        <!-- Logo -->
+
+        <div class="footer-box">
+
+            <h2>NKTechVision</h2>
+
+            <p>
+                Learn • Build • Innovate
+            </p>
+
+            <p>
+                Professional platform for learning
+                Python, Flask, AI and Software Engineering.
+            </p>
+
+            <div class="social-links">
+
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+
+                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+
+            </div>
+
+        </div>
+
+        <!-- Quick Links -->
+
+        <div class="footer-box">
+
+            <h3>Quick Links</h3>
+
+            <ul>
+
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/about">About</a></li>
+
+                <li><a href="/services">Services</a></li>
+
+                <li><a href="/contact">Contact</a></li>
+
+            </ul>
+
+        </div>
+
+        <!-- Tutorials -->
+
+        <div class="footer-box">
+
+            <h3>Tutorials</h3>
+
+            <ul>
+
+                <li><a href="/python">Python</a></li>
+
+                <li><a href="#">Flask</a></li>
+
+                <li><a href="#">HTML</a></li>
+
+                <li><a href="#">CSS</a></li>
+
+            </ul>
+
+        </div>
+
+        <!-- Contact -->
+
+        <div class="footer-box">
+
+            <h3>Contact</h3>
+
+            <ul>
+
+                <li><i class="fa-solid fa-envelope"></i> info@nktechvision.com</li>
+
+                <li><i class="fa-solid fa-location-dot"></i> India</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        © 2026 NKTechVision • Made with ❤️ by Kishor Naik
+
+    </div>
 
 </footer>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/quote.js') }}"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({
+    duration:1000,
+    once:true
+});
+</script>
 
 </body>
 

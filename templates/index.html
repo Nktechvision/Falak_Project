@@ -2,14 +2,322 @@
 
 {% block content %}
 
-<h1>🚀 Welcome To NKTechVision</h1>
+<!-- Quote Section -->
 
-<p>
-Learn Coding, Flask, Python, Web Development and Software Engineering.
-</p>
+<section class="quote-bar">
 
-<a href="/register">
-    <button>Get Started</button>
-</a>
+    <div class="quote-container">
+
+        <h3>💡 Quote of the Day</h3>
+
+        <p id="daily-quote">
+            Loading today's quote...
+        </p>
+
+        <span id="quote-author"></span>
+
+    </div>
+
+</section>
+
+<!-- Hero Section-->
+
+<section class="hero">
+
+    <div class="hero-left">
+
+        <span class="hero-badge">
+            🚀 Learn • Build • Grow
+        </span>
+
+        <h1>
+            Become a Professional
+            <span>Software Developer</span>
+        </h1>
+
+        <p>
+            Master Python, Flask, AI, REST APIs,
+            HTML, CSS and JavaScript through
+            real-world projects and industry-ready tutorials.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/register" class="btn-primary">
+                Start Learning
+            </a>
+
+            <a href="/tutorials" class="btn-secondary">
+                Explore Tutorials
+            </a>
+
+        </div>
+
+    </div>
+
+   <!-- <div class="hero-right">
+
+        <div class="tech-card python">
+            <i class="fa-brands fa-python"></i>
+            Python
+        </div>
+
+        <div class="tech-card flask">
+            ⚗ Flask
+        </div>
+
+        <div class="tech-card html">
+            <i class="fa-brands fa-html5"></i>
+            HTML5
+        </div>
+
+        <div class="tech-card css">
+            <i class="fa-brands fa-css3-alt"></i>
+            CSS3
+        </div>
+
+        <div class="tech-card ai">
+            <i class="fa-solid fa-robot"></i>
+            AI
+        </div>
+
+        <div class="tech-card api">
+            <i class="fa-solid fa-server"></i>
+            REST API
+        </div>
+
+    </div>-->
+
+</section>
+
+
+<!-- Feature Section -->
+<section class="feature-section" data-aos="fade-up">
+
+    <div class="feature-card">
+
+        <div class="icon">🚀</div>
+
+        <h2>Learn Coding</h2>
+
+        <p>
+            Master Python, Flask, JavaScript,
+            HTML, CSS and more.
+        </p>
+
+        <a href="login">Start Learning</a>
+
+    </div>
+
+    <div class="feature-card">
+
+        <div class="icon">💻</div>
+
+        <h2>Real Projects</h2>
+
+        <p>
+            Build industry-level projects
+            with complete source code.
+        </p>
+
+        <a href="#">Explore Projects</a>
+
+    </div>
+
+    <div class="feature-card">
+
+        <div class="icon">🤖</div>
+
+        <h2>AI Tools</h2>
+
+        <p>
+            Learn AI Integration and
+            build modern applications.
+        </p>
+
+        <a href="#">Try AI</a>
+
+    </div>
+
+</section>
+
+<!-- Categories Section -->
+
+<section class="categories" data-aos = "fade-up">
+
+<h2 class="section-title">
+📚 Popular Learning Categories
+</h2>
+
+<div class="category-grid">
+
+<div class="category-card">
+🐍
+<h3>Python</h3>
+</div>
+
+<div class="category-card">
+🌐
+<h3>HTML & CSS</h3>
+</div>
+
+<div class="category-card">
+⚡
+<h3>Flask</h3>
+</div>
+
+<div class="category-card">
+💾
+<h3>SQL</h3>
+</div>
+
+<div class="category-card">
+☁️
+<h3>REST API</h3>
+</div>
+
+<div class="category-card">
+🤖
+<h3>Artificial Intelligence</h3>
+</div>
+
+<div class="category-card">
+
+    <div class="icon">🐍</div>
+
+    <h3>Python</h3>
+
+    <p>Learn Python from beginner to advanced.</p>
+
+</div>
+
+</div>
+
+</section>
+<!-- Why Section-->
+
+<section class="why-section" data-aos = "fead-up">
+
+    <h2 class="section-title">
+        ⭐ Why Choose NKTechVision?
+    </h2>
+
+    <p class=<"section-subtitle">
+        Everything you need to become a professional software developer.
+    </p>
+
+    <div class="why-grid">
+
+        <div class="why-card">
+        <div class="why-icon">
+        <i class="fa-solid fa-graduation-cap"></i></div>
+            <h3>Practical Learning</h3>
+            <p>Learn by building real-world applications instead of only theory.</p>
+        </div>
+
+
+        <div class="why-card">
+            <div class="why-icon">
+        <i class="fa-solid fa-code"></i></div>
+            <h3>Real Projects</h3>
+            <p>Create portfolio-ready projects used in real software development.</p>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">
+         <i class="fa-solid fa-robot"></i></div>
+
+            <h3>AI Integration</h3>
+            <p>Learn modern AI tools and integrate them into Flask applications.</p>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">
+         <i class="fa-solid fa-mobile-screen-button"></i></div>
+
+            <h3>Mobile Friendly</h3>
+            <p>Learn anywhere with a fully responsive learning platform.</p>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">
+         <i class="fa-solid fa-rocket"></i></div>
+
+            <h3>Career Focused</h3>
+            <p>Courses designed to help you become job-ready and freelance-ready.</p>
+        </div>
+
+        <div class="why-card">
+            <div class="why-icon">
+         <i class="fa-solid fa-globe"></i></div>
+
+            <h3>100% Free Resources</h3>
+            <p>High-quality tutorials, projects and coding resources for everyone.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Statistics Section -->
+
+<section class="stats-section">
+
+    <div class="stats-header">
+
+        <h2>Our Achievements</h2>
+
+        <p>
+            Building the future of coding education.
+        </p>
+
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-user-tie"></i>
+
+            <h3 class="counter" data-target="1">1</h3>
+
+            <p>Founder</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-brands fa-python"></i>
+
+            <h3 class="counter" data-target="35">35+</h3>
+
+            <p>Python Chapters</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-laptop-code"></i>
+
+            <h3 class="counter" data-target="3">3+</h3>
+
+            <p>Real Projects</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-globe"></i>
+
+            <h3 class="counter" data-target="1">1</h3>
+
+            <p>Learning Platform</p>
+
+        </div>
+
+    </div>
+
+</section>
+
 
 {% endblock %}

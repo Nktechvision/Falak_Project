@@ -1,0 +1,375 @@
+/* ==========================
+      WHY NKTECHVISION
+========================== */
+
+.why-section{
+
+    max-width:1200px;
+
+    margin:90px auto;
+
+    padding:20px;
+
+}
+
+.why-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:30px;
+
+}
+
+.why-card{
+
+    background:rgba(255,255,255,.18);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    border-radius:22px;
+
+    padding:35px 25px;
+
+    text-align:center;
+
+    box-shadow:0 8px 32px rgba(31,38,135,.15);
+
+    transition:.4s;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+
+.why-card:hover{
+
+    transform:translateY(-12px) scale(1.03);
+
+    box-shadow:0 20px 45px rgba(37,99,235,.25);
+
+}
+
+.why-icon{
+
+    font-size:60px;
+
+    color:#2563eb;
+
+    margin-bottom:20px;
+
+    transition:.4s;
+
+}
+
+.why-card:hover .why-icon{
+
+    color:#8b5cf6;
+
+    transform:rotate(8deg) scale(1.2);
+
+}
+
+.why-card h3{
+
+    margin-bottom:15px;
+
+    color:#111827;
+
+}
+
+.why-card p{
+
+    color:#666;
+
+    line-height:1.7;
+
+
+}
+
+/* =====================================
+        STATISTICS SECTION
+===================================== */
+
+.stats-section{
+    position:relative;
+    overflow:hidden;
+    max-width:1200px;
+
+    margin:100px auto;
+
+    padding:70px 25px;
+
+}
+
+.stats-section::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:350px;
+
+    height:350px;
+
+    background:#2563eb;
+
+    opacity:.05;
+
+    filter:blur(100px);
+
+    border-radius:50%;
+
+    top:-120px;
+
+    left:-120px;
+
+}
+
+.stats-section::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:300px;
+
+    height:300px;
+
+    background:#06b6d4;
+
+    opacity:.05;
+
+    filter:blur(100px);
+
+    border-radius:50%;
+
+    bottom:-100px;
+
+    right:-100px;
+
+}
+
+.stats-header{
+
+    text-align:center;
+
+    margin-bottom:60px;
+
+}
+
+.stats-header h2{
+
+    font-size:42px;
+
+    color:#111827;
+
+    margin-bottom:15px;
+
+}
+
+.stats-header p{
+
+    color:#6b7280;
+
+    font-size:18px;
+
+}
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:30px;
+
+}
+
+.stat-card{
+
+    background:rgba(255,255,255,.75);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.35);
+
+    border-radius:22px;
+
+    padding:40px 25px;
+
+    text-align:center;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+    transition:all .35s ease;
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+.stat-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+
+    height:180px;
+
+    background:rgba(37,99,235,.08);
+
+    border-radius:50%;
+
+    top:-80px;
+
+    right:-80px;
+
+    transition:.4s;
+
+}
+
+.stat-card:hover::before{
+
+    transform:scale(1.4);
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-12px) scale(1.03);
+
+    box-shadow:0 25px 60px rgba(37,99,235,.20);
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 20px 45px rgba(37,99,235,.18);
+
+}
+
+.stat-card i{
+
+    font-size:55px;
+
+    color:#2563eb;
+
+    margin-bottom:20px;
+
+    transition:.35s;
+}
+
+.stat-card:hover i{
+
+    transform:rotate(8deg) scale(1.15);
+
+}
+
+.stat-card h3{
+
+    font-size:42px;
+
+    color:#111827;
+
+    margin-bottom:10px;
+
+}
+
+.stat-card p{
+
+    color:#6b7280;
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+
+@keyframes float{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-8px);
+
+}
+
+}
+
+@media(max-width:992px){
+
+.why-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.why-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:992px){
+
+.stats-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:600px){
+
+.stats-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.stats-header h2{
+
+font-size:32px;
+
+}
+
+.stat-card{
+
+padding:35px 20px;
+
+}
+
+.stat-card h3{
+
+font-size:36px;
+
+}
+
+}

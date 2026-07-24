@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 35: Packing &amp; Unpacking in Python | NkTechVision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0e16;--bg-soft:#0d1320;--card:#121a29;--card-alt:#161f31;--border:rgba(255,255,255,0.08);--text:#e7edf5;--text-dim:#8b98ac;--text-faint:#5a667c;--green:#34d399;--blue:#38bdf8;--gradient:linear-gradient(135deg,var(--green),var(--blue));--gradient-soft:linear-gradient(135deg,rgba(52,211,153,0.12),rgba(56,189,248,0.12));--radius:14px;}
+  *{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  body::before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 15% 0%,rgba(52,211,153,0.08),transparent 40%),radial-gradient(circle at 85% 20%,rgba(56,189,248,0.08),transparent 45%);pointer-events:none;z-index:0;}
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.01em;}
+  .grad-text{background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  a{color:var(--green);text-decoration:none;}
+  code{font-family:'JetBrains Mono',monospace;font-size:0.88em;color:var(--green);}
+  .progress-track{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,0.05);z-index:200;}
+  .progress-fill{height:100%;width:0%;background:var(--gradient);transition:width .1s linear;}
+  header{position:sticky;top:3px;z-index:100;backdrop-filter:blur(14px);background:rgba(10,14,22,0.75);border-bottom:1px solid var(--border);}
+  .header-inner{max-width:920px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:10px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{width:34px;height:34px;border-radius:9px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#06120c;font-size:0.85rem;flex-shrink:0;}
+  .brand-text{font-size:0.85rem;color:var(--text-dim);}.brand-text strong{color:var(--text);font-weight:600;}
+  .pill-group{display:flex;gap:8px;flex-wrap:wrap;}
+  .chapter-pill{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--green);border:1px solid rgba(52,211,153,0.3);background:rgba(52,211,153,0.07);padding:5px 10px;border-radius:999px;white-space:nowrap;}
+  .module-pill{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--blue);border:1px solid rgba(56,189,248,0.3);background:rgba(56,189,248,0.07);padding:5px 10px;border-radius:999px;white-space:nowrap;}
+  main{max-width:920px;margin:0 auto;padding:0 24px 80px;position:relative;z-index:1;}
+  .hero{padding:56px 0 36px;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.18em;color:var(--blue);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:"";width:28px;height:1px;background:var(--gradient);display:inline-block;}
+  .hero h1{font-size:clamp(2.1rem,6vw,3.2rem);line-height:1.15;margin-bottom:16px;}
+  .hero p.lead{font-size:1.05rem;color:var(--text-dim);max-width:600px;margin-bottom:32px;}
+  .objectives{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:32px;}
+  .objectives h4{font-size:0.85rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-faint);margin-bottom:14px;font-weight:600;}
+  .objectives ul{list-style:none;display:grid;gap:10px;}
+  .objectives li{display:flex;align-items:flex-start;gap:10px;font-size:0.95rem;}
+  .objectives li::before{content:"✓";flex-shrink:0;width:20px;height:20px;border-radius:6px;background:var(--gradient-soft);color:var(--green);font-size:0.75rem;display:flex;align-items:center;justify-content:center;margin-top:2px;font-weight:700;}
+  .section{padding:46px 0;border-top:1px solid var(--border);}
+  .section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;}
+  .section-num{font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--text-faint);flex-shrink:0;}
+  .section h2{font-size:1.45rem;}
+  .section h2 code{font-size:0.85em;}
+  .section p{color:var(--text-dim);margin-bottom:14px;max-width:680px;}
+  .section p strong{color:var(--text);}
+  .code-block{background:var(--card-alt);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:18px 0;}
+  .code-head{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-bottom:1px solid var(--border);}
+  .code-head .dots{display:flex;gap:6px;}.code-head .dots span{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .dot-red{background:#f87171;}.dot-yellow{background:#fbbf24;}.dot-green{background:#34d399;}
+  .code-head .lang{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-faint);letter-spacing:0.08em;text-transform:uppercase;}
+  .copy-btn{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-dim);background:transparent;border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;transition:all .15s ease;}
+  .copy-btn:hover{color:var(--green);border-color:var(--green);}
+  pre.code{margin:0;padding:18px 20px;font-family:'JetBrains Mono',monospace;font-size:0.88rem;line-height:1.7;overflow-x:auto;color:var(--text);}
+  pre.code .kw{color:var(--blue);}pre.code .str{color:var(--green);}pre.code .com{color:var(--text-faint);font-style:italic;}pre.code .num{color:#fb923c;}pre.code .fn{color:#c084fc;}pre.code .star{color:#f472b6;font-weight:700;}
+  .output-block{background:#070b12;border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--green);margin:14px 0;white-space:pre-wrap;}
+  .output-block::before{content:"OUTPUT";display:block;font-size:0.65rem;letter-spacing:0.15em;color:var(--text-faint);margin-bottom:8px;}
+  .error-block{background:#0f0a0a;border:1px solid rgba(248,113,113,0.3);border-radius:var(--radius);padding:14px 20px;font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:#f87171;margin:14px 0;}
+  .error-block::before{content:"ERROR";display:block;font-size:0.65rem;letter-spacing:0.15em;color:rgba(248,113,113,0.5);margin-bottom:8px;}
+
+  /* packing visual: values flowing into one tuple box */
+  .pack-into{display:flex;align-items:center;gap:14px;margin:18px 0;flex-wrap:wrap;}
+  .pack-vals{display:flex;gap:8px;flex-wrap:wrap;}
+  .pack-val-chip{font-family:'JetBrains Mono',monospace;font-size:0.85rem;border:1.5px solid var(--text-faint);border-radius:8px;padding:8px 14px;color:var(--text-dim);}
+  .pack-arrow-big{font-size:1.5rem;color:var(--blue);}
+  .pack-result-box{border:1.5px solid var(--blue);border-radius:10px;padding:12px 18px;background:rgba(56,189,248,0.08);font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--blue);}
+
+  /* unpacking visual: one tuple into separate boxes */
+  .unpack-from{display:flex;align-items:center;gap:14px;margin:18px 0;flex-wrap:wrap;}
+  .unpack-source{border:1.5px solid var(--blue);border-radius:10px;padding:12px 18px;background:rgba(56,189,248,0.06);font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--blue);}
+  .unpack-arrow-big{font-size:1.5rem;color:var(--green);}
+  .unpack-targets{display:flex;gap:10px;flex-wrap:wrap;}
+  .unpack-target{border:1.5px solid var(--green);border-radius:10px;padding:10px 16px;background:rgba(52,211,153,0.08);font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--green);text-align:center;}
+  .unpack-target .ut-label{font-size:0.68rem;color:var(--text-faint);display:block;margin-bottom:4px;}
+
+  /* step list reused */
+  .step-list{margin-top:18px;display:grid;gap:0;border-left:1px solid var(--border);padding-left:24px;margin-left:13px;}
+  .step{position:relative;padding:0 0 18px 0;}
+  .step:last-child{padding-bottom:0;}
+  .step::before{content:attr(data-step);position:absolute;left:-37px;top:0;width:26px;height:26px;border-radius:50%;background:var(--gradient);color:#06120c;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.78rem;display:flex;align-items:center;justify-content:center;}
+  .step p{margin:0;font-size:0.9rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;}
+  .step p strong{color:var(--text);}
+
+  /* swap visual */
+  .swap-viz{display:flex;align-items:center;justify-content:center;gap:24px;margin:24px 0;flex-wrap:wrap;}
+  .swap-state{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .swap-state .ss-label{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.1em;}
+  .swap-box-pair{display:flex;gap:10px;}
+  .swap-box{width:60px;height:50px;border-radius:10px;background:var(--card);border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;}
+  .swap-box .sb-name{font-size:0.65rem;color:var(--text-faint);}
+  .swap-box .sb-val{font-size:0.95rem;color:var(--green);font-weight:600;}
+  .swap-arrow-rotate{font-size:1.6rem;color:var(--blue);}
+
+  /* asterisk unpacking visual */
+  .star-unpack-viz{display:flex;align-items:center;gap:6px;margin:18px 0;flex-wrap:wrap;}
+  .star-box{min-width:42px;height:42px;padding:0 10px;border-radius:8px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--text-dim);}
+  .star-box.first{border-color:var(--green);color:var(--green);background:rgba(52,211,153,0.1);}
+  .star-box.middle{border-color:var(--blue);color:var(--blue);background:rgba(56,189,248,0.1);}
+  .star-box.last{border-color:#f472b6;color:#f472b6;background:rgba(244,114,182,0.1);}
+  .star-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+  .star-legend span{font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:5px 10px;border-radius:6px;}
+
+  /* function arg visual */
+  .func-viz{display:flex;align-items:center;gap:14px;margin:18px 0;flex-wrap:wrap;}
+  .func-box{border:1.5px solid var(--blue);border-radius:10px;padding:12px 18px;background:rgba(56,189,248,0.06);font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--blue);}
+
+  /* tips */
+  .tip-grid{display:grid;gap:14px;grid-template-columns:1fr;margin-top:18px;}
+  @media(min-width:640px){.tip-grid{grid-template-columns:repeat(2,1fr);}}
+  .tip{border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;background:linear-gradient(160deg,var(--card),var(--card-alt));}
+  .tip .tip-label{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;}
+  .tip p{margin:0;font-size:0.92rem;color:var(--text-dim);}
+  .note-box{border:1px solid rgba(56,189,248,0.25);background:rgba(56,189,248,0.05);border-radius:var(--radius);padding:20px 22px;margin-top:18px;}
+  .note-box .note-tag{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;display:block;}
+  .note-box p{margin:0;color:var(--text-dim);}
+  .note-box .nb-grid{display:grid;gap:12px;grid-template-columns:1fr;margin-top:10px;}
+  @media(min-width:560px){.note-box .nb-grid{grid-template-columns:1fr 1fr;}}
+  .note-box .nb-grid .code-block{margin:0;}
+
+  /* usecase grid */
+  .usecase-grid{display:grid;gap:14px;grid-template-columns:1fr;margin-top:18px;}
+  @media(min-width:640px){.usecase-grid{grid-template-columns:repeat(3,1fr);}}
+  .usecase{border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;background:var(--card);text-align:center;}
+  .usecase h4{font-size:0.92rem;margin:0;}
+
+  /* accordion */
+  .accordion{margin-top:18px;display:grid;gap:10px;}
+  .acc-item{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--card);}
+  .acc-q{width:100%;text-align:left;background:none;border:none;color:var(--text);font-family:'Inter',sans-serif;font-weight:500;font-size:0.95rem;padding:14px 18px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .acc-q .qnum{color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.85rem;margin-right:10px;}
+  .acc-q .chevron{transition:transform .2s ease;color:var(--text-faint);flex-shrink:0;}
+  .acc-item.open .chevron{transform:rotate(45deg);color:var(--green);}
+  .acc-a{max-height:0;overflow:hidden;transition:max-height .25s ease;padding:0 18px;color:var(--text-dim);font-size:0.92rem;}
+  .acc-item.open .acc-a{max-height:200px;padding-bottom:16px;}
+  .acc-a code{display:block;margin-top:6px;}
+
+  /* quiz */
+  .quiz-card{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);padding:20px 22px;margin-top:16px;}
+  .quiz-card .q-title{font-weight:600;margin-bottom:14px;font-size:0.98rem;}
+  .quiz-card .q-code{font-family:'JetBrains Mono',monospace;font-size:0.85rem;background:var(--card-alt);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:14px;color:var(--text);white-space:pre;}
+  .quiz-card .q-code .num{color:#fb923c;}
+  .options{display:grid;gap:8px;}
+  .option{text-align:left;border:1px solid var(--border);background:var(--card-alt);color:var(--text);border-radius:8px;padding:10px 14px;font-family:'Inter',sans-serif;font-size:0.9rem;cursor:pointer;transition:all .15s ease;}
+  .option .opt-code{font-family:'JetBrains Mono',monospace;color:var(--green);}
+  .option:hover:not(.correct):not(.wrong){border-color:var(--blue);}
+  .option.correct{border-color:var(--green);background:rgba(52,211,153,0.1);color:var(--green);}
+  .option.wrong{border-color:#f87171;background:rgba(248,113,113,0.08);color:#f87171;}
+  .option:disabled{cursor:default;}
+  .quiz-score{margin-top:24px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--text-dim);}
+  .quiz-score strong{color:var(--green);font-size:1.1rem;}
+
+  /* live widget */
+  .live-widget{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);padding:20px 22px;margin:18px 0;}
+  .live-widget .lw-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .live-widget input[type="text"],.live-widget input[type="number"]{background:var(--card-alt);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.9rem;padding:8px 12px;width:110px;}
+  .live-widget input:focus{outline:none;border-color:var(--blue);}
+  .live-output{font-family:'JetBrains Mono',monospace;font-size:0.88rem;color:var(--green);white-space:pre-wrap;margin-top:6px;}
+
+  footer{border-top:1px solid var(--border);padding:40px 24px 60px;max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center;position:relative;z-index:1;}
+  footer .brand-mark{width:42px;height:42px;font-size:1rem;}
+  footer p{color:var(--text-faint);font-size:0.85rem;max-width:480px;}
+  .nav-links{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+  .next-link,.prev-link{display:inline-flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-weight:600;padding:12px 22px;border-radius:999px;font-size:0.9rem;}
+  .next-link{background:var(--gradient);color:#06120c;}.next-link:hover{opacity:0.9;}
+  .prev-link{border:1px solid var(--border);color:var(--text-dim);}.prev-link:hover{border-color:var(--green);color:var(--green);}
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">NK</div>
+      <div class="brand-text">NkTechVision <br><strong>Python Course</strong></div>
+    </div>
+    <div class="pill-group">
+      <span class="module-pill">Module 07 · Tuples</span>
+      <span class="chapter-pill">Chapter 35</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="eyebrow">Module 07 · Tuples · Chapter 35</div>
+    <h1>Packing &amp; <span class="grad-text">Unpacking</span> in Python 🚀</h1>
+    <p class="lead">You've used packing and unpacking a few times already without naming it. This chapter makes it official — bundling values together, spreading them back apart, swapping variables in one line, and the asterisk trick that collects "everything else."</p>
+    <div class="objectives">
+      <h4>Learning Objectives</h4>
+      <ul>
+        <li>Understand packing and unpacking</li>
+        <li>Pack multiple values into a tuple</li>
+        <li>Unpack tuple values into variables</li>
+        <li>Use multiple assignment</li>
+        <li>Use <code>*</code> (asterisk) for advanced unpacking</li>
+        <li>Apply packing and unpacking in real-world projects</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="s1">
+    <div class="section-head"><span class="section-num">01</span><h2>What is Packing?</h2></div>
+    <p><strong>Packing</strong> means storing multiple values into a single tuple.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">student = (<span class="str">"Kishor"</span>, <span class="num">21</span>, <span class="str">"Python"</span>)</pre>
+    </div>
+    <div class="pack-into">
+      <div class="pack-vals">
+        <span class="pack-val-chip">"Kishor"</span>
+        <span class="pack-val-chip">21</span>
+        <span class="pack-val-chip">"Python"</span>
+      </div>
+      <span class="pack-arrow-big">→</span>
+      <div class="pack-result-box">student = ("Kishor", 21, "Python")</div>
+    </div>
+    <p><code>"Kishor"</code> is the name, <code>21</code> is the age, <code>"Python"</code> is the course — all three values are packed into one tuple.</p>
+  </section>
+
+  <section class="section" id="s2">
+    <div class="section-head"><span class="section-num">02</span><h2>Automatic Tuple Packing</h2></div>
+    <p>Parentheses are actually optional — Python will automatically pack comma-separated values into a tuple even without them.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">student = <span class="str">"Kishor"</span>, <span class="num">21</span>, <span class="str">"Python"</span>
+
+<span class="kw">print</span>(student)</pre>
+    </div>
+    <div class="output-block">('Kishor', 21, 'Python')</div>
+    <p>Python automatically creates a tuple from the comma-separated values.</p>
+  </section>
+
+  <section class="section" id="s3">
+    <div class="section-head"><span class="section-num">03</span><h2>What is Unpacking?</h2></div>
+    <p><strong>Unpacking</strong> means extracting tuple values into separate variables, all at once.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">student = (<span class="str">"Kishor"</span>, <span class="num">21</span>, <span class="str">"Python"</span>)
+
+name, age, course = student
+
+<span class="kw">print</span>(name)
+<span class="kw">print</span>(age)
+<span class="kw">print</span>(course)</pre>
+    </div>
+    <div class="output-block">Kishor
+21
+Python</div>
+    <div class="unpack-from">
+      <div class="unpack-source">("Kishor", 21, "Python")</div>
+      <span class="unpack-arrow-big">→</span>
+      <div class="unpack-targets">
+        <div class="unpack-target"><span class="ut-label">name</span>"Kishor"</div>
+        <div class="unpack-target"><span class="ut-label">age</span>21</div>
+        <div class="unpack-target"><span class="ut-label">course</span>"Python"</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s4">
+    <div class="section-head"><span class="section-num">04</span><h2>How Unpacking Works</h2></div>
+    <p>Each variable on the left matches a value on the right, in the same position.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">student = (<span class="str">"Kishor"</span>, <span class="num">21</span>, <span class="str">"Python"</span>)
+
+name, age, course = student</pre>
+    </div>
+    <div class="step-list">
+      <div class="step" data-step="1"><p>name &nbsp;= "Kishor"</p></div>
+      <div class="step" data-step="2"><p>age &nbsp;&nbsp;= 21</p></div>
+      <div class="step" data-step="3"><p>course = "Python"</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="s5">
+    <div class="section-head"><span class="section-num">05</span><h2>Multiple Assignment</h2></div>
+    <p>Python allows assigning several values to several variables, all in a single line.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">x, y, z = <span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>
+
+<span class="kw">print</span>(x)
+<span class="kw">print</span>(y)
+<span class="kw">print</span>(z)</pre>
+    </div>
+    <div class="output-block">10
+20
+30</div>
+  </section>
+
+  <section class="section" id="s6">
+    <div class="section-head"><span class="section-num">06</span><h2>Swapping Variables</h2></div>
+    <p>Unpacking lets you swap two variables' values in a single line — no temporary variable required.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">a = <span class="num">10</span>
+b = <span class="num">20</span>
+
+a, b = b, a
+
+<span class="kw">print</span>(a)
+<span class="kw">print</span>(b)</pre>
+    </div>
+    <div class="output-block">20
+10</div>
+    <div class="swap-viz">
+      <div class="swap-state">
+        <span class="ss-label">Before</span>
+        <div class="swap-box-pair">
+          <div class="swap-box"><span class="sb-name">a</span><span class="sb-val">10</span></div>
+          <div class="swap-box"><span class="sb-name">b</span><span class="sb-val">20</span></div>
+        </div>
+      </div>
+      <span class="swap-arrow-rotate">⇄</span>
+      <div class="swap-state">
+        <span class="ss-label">After</span>
+        <div class="swap-box-pair">
+          <div class="swap-box"><span class="sb-name">a</span><span class="sb-val">20</span></div>
+          <div class="swap-box"><span class="sb-name">b</span><span class="sb-val">10</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s7">
+    <div class="section-head"><span class="section-num">07</span><h2>Unpacking Error</h2></div>
+    <p>The number of variables on the left must exactly match the number of values on the right — Python won't guess.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python — Wrong</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">student = (<span class="str">"Kishor"</span>, <span class="num">21</span>)
+
+name, age, course = student</pre>
+    </div>
+    <div class="error-block">ValueError: not enough values to unpack (expected 3, got 2)</div>
+  </section>
+
+  <section class="section" id="s8">
+    <div class="section-head"><span class="section-num">08</span><h2>Using * (Asterisk) for Unpacking</h2></div>
+    <p>The <code>*</code> operator collects any "remaining" values into a list, while letting you still grab specific values by position.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">numbers = (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>)
+
+first, <span class="star">*</span>middle, last = numbers
+
+<span class="kw">print</span>(first)
+<span class="kw">print</span>(middle)
+<span class="kw">print</span>(last)</pre>
+    </div>
+    <div class="output-block">1
+[2, 3, 4]
+5</div>
+    <div class="star-unpack-viz">
+      <div class="star-box first">1</div>
+      <div class="star-box middle">2</div>
+      <div class="star-box middle">3</div>
+      <div class="star-box middle">4</div>
+      <div class="star-box last">5</div>
+    </div>
+    <div class="star-legend">
+      <span style="background:rgba(52,211,153,0.1); color:var(--green);">first = 1</span>
+      <span style="background:rgba(56,189,248,0.1); color:var(--blue);">*middle = [2, 3, 4]</span>
+      <span style="background:rgba(244,114,182,0.1); color:#f472b6;">last = 5</span>
+    </div>
+  </section>
+
+  <section class="section" id="s9">
+    <div class="section-head"><span class="section-num">09</span><h2>Another Example</h2></div>
+    <p><code>*</code> doesn't have to sit in the middle — here it collects everything after the first value.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">data = (<span class="str">"Python"</span>, <span class="str">"Java"</span>, <span class="str">"C"</span>, <span class="str">"C++"</span>)
+
+first, <span class="star">*</span>others = data
+
+<span class="kw">print</span>(first)
+<span class="kw">print</span>(others)</pre>
+    </div>
+    <div class="output-block">Python
+['Java', 'C', 'C++']</div>
+  </section>
+
+  <section class="section" id="s10">
+    <div class="section-head"><span class="section-num">10</span><h2>Packing Function Arguments</h2></div>
+    <p>The same <code>*</code> idea works in function definitions — <code>*numbers</code> packs any number of arguments into a single tuple.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code"><span class="kw">def</span> show(<span class="star">*</span>numbers):
+    <span class="kw">print</span>(numbers)
+
+show(<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>)</pre>
+    </div>
+    <div class="output-block">(10, 20, 30, 40)</div>
+    <div class="func-viz">
+      <div class="func-box">show(10, 20, 30, 40)</div>
+      <span class="pack-arrow-big">→</span>
+      <div class="func-box">numbers = (10, 20, 30, 40)</div>
+    </div>
+  </section>
+
+  <section class="section" id="s11">
+    <div class="section-head"><span class="section-num">11</span><h2>Unpacking Function Arguments</h2></div>
+    <p>You can also go the other direction — use <code>*</code> when <strong>calling</strong> a function to spread a tuple out into separate arguments.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code"><span class="kw">def</span> add(a, b, c):
+    <span class="kw">print</span>(a + b + c)
+
+numbers = (<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>)
+
+add(<span class="star">*</span>numbers)</pre>
+    </div>
+    <div class="output-block">60</div>
+  </section>
+
+  <section class="section" id="s12">
+    <div class="section-head"><span class="section-num">12</span><h2>Real-World Example — Student Information</h2></div>
+    <p>Unpacking combined with f-strings is the cleanest way to display a fixed record.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">student = (<span class="str">"Kishor"</span>, <span class="num">21</span>, <span class="str">"Nagpur"</span>)
+
+name, age, city = student
+
+<span class="kw">print</span>(<span class="fn">f</span><span class="str">"Name: {name}"</span>)
+<span class="kw">print</span>(<span class="fn">f</span><span class="str">"Age: {age}"</span>)
+<span class="kw">print</span>(<span class="fn">f</span><span class="str">"City: {city}"</span>)</pre>
+    </div>
+    <div class="output-block">Name: Kishor
+Age: 21
+City: Nagpur</div>
+  </section>
+
+  <section class="section" id="s13">
+    <div class="section-head"><span class="section-num">13</span><h2>Real-World Uses</h2></div>
+    <p>Packing and unpacking show up constantly once you start reading real Python code.</p>
+    <div class="usecase-grid">
+      <div class="usecase"><h4>Data Science</h4></div>
+      <div class="usecase"><h4>APIs</h4></div>
+      <div class="usecase"><h4>Database Records</h4></div>
+      <div class="usecase"><h4>Machine Learning</h4></div>
+      <div class="usecase"><h4>Function Arguments</h4></div>
+      <div class="usecase"><h4>Web Development</h4></div>
+    </div>
+  </section>
+
+  <section class="section" id="s14">
+    <div class="section-head"><span class="section-num">14</span><h2>Tips</h2></div>
+    <div class="tip-grid">
+      <div class="tip"><div class="tip-label">Tip 01</div><p>Use unpacking for cleaner, more readable code.</p></div>
+      <div class="tip"><div class="tip-label">Tip 02</div><p>Use <code>*</code> when the number of values is unknown ahead of time.</p></div>
+      <div class="tip"><div class="tip-label">Tip 03</div><p>Use variable names that describe the data they hold.</p></div>
+      <div class="tip"><div class="tip-label">Tip 04</div><p>Practice tuple unpacking daily until it feels automatic.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="s15">
+    <div class="section-head"><span class="section-num">15</span><h2>Important Note</h2></div>
+    <p>Packing and unpacking are two sides of the same coin — both extremely common in real Python code.</p>
+    <div class="note-box">
+      <span class="note-tag">Packing vs Unpacking</span>
+      <div class="nb-grid">
+        <div class="code-block">
+          <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Packing</span></div>
+          <pre class="code">data = <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">Unpacking</span></div>
+          <pre class="code">a, b, c = data</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s16">
+    <div class="section-head"><span class="section-num">16</span><h2>Interview Questions</h2></div>
+    <p>Common questions interviewers ask about packing and unpacking.</p>
+    <div class="accordion">
+      <div class="acc-item">
+        <button class="acc-q"><span><span class="qnum">Q1.</span>What is Packing?</span><span class="chevron">+</span></button>
+        <div class="acc-a"><p>Storing multiple values into a tuple.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span><span class="qnum">Q2.</span>What is Unpacking?</span><span class="chevron">+</span></button>
+        <div class="acc-a"><p>Extracting tuple values into separate variables.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span><span class="qnum">Q3.</span>What does * do in unpacking?</span><span class="chevron">+</span></button>
+        <div class="acc-a"><p>Collects any remaining values into a list.</p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span><span class="qnum">Q4.</span>Can we swap variables using unpacking?</span><span class="chevron">+</span></button>
+        <div class="acc-a"><p>Yes: <code>a, b = b, a</code></p></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-q"><span><span class="qnum">Q5.</span>What happens if variable count and value count differ?</span><span class="chevron">+</span></button>
+        <div class="acc-a"><p>Python raises a <code>ValueError</code>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s17">
+    <div class="section-head"><span class="section-num">17</span><h2>Quick Quiz</h2></div>
+    <p>Tap an option to check your understanding. Your score updates as you go.</p>
+
+    <div class="quiz-card" data-correct="0">
+      <div class="q-title">Question 1 — What is the output?</div>
+      <div class="q-code">data = (<span class="num">10</span>, <span class="num">20</span>)
+
+a, b = data
+
+print(a)</div>
+      <div class="options">
+        <button class="option">A) 10</button>
+        <button class="option">B) 20</button>
+        <button class="option">C) (10, 20)</button>
+        <button class="option">D) Error</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" data-correct="1">
+      <div class="q-title">Question 2 — What is the output?</div>
+      <div class="q-code">a = <span class="num">5</span>
+b = <span class="num">10</span>
+
+a, b = b, a
+
+print(a)</div>
+      <div class="options">
+        <button class="option">A) 5</button>
+        <button class="option">B) 10</button>
+        <button class="option">C) Error</button>
+        <button class="option">D) None</button>
+      </div>
+    </div>
+
+    <div class="quiz-card" data-correct="1">
+      <div class="q-title">Question 3 — What does * do?</div>
+      <div class="options">
+        <button class="option">A) Multiply</button>
+        <button class="option">B) Collect remaining values</button>
+        <button class="option">C) Delete values</button>
+        <button class="option">D) Sort values</button>
+      </div>
+    </div>
+
+    <div class="quiz-score">Score: <strong id="quizScore">0</strong> / 3</div>
+  </section>
+
+  <section class="section" id="s18">
+    <div class="section-head"><span class="section-num">18</span><h2>Mini Project — Employee Information System</h2></div>
+    <p>Unpack a fixed employee record and display each field clearly.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">employee_info.py</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">employee = (<span class="str">"Kishor"</span>, <span class="str">"Developer"</span>, <span class="num">50000</span>)
+
+name, role, salary = employee
+
+<span class="kw">print</span>(<span class="str">"Employee Details"</span>)
+<span class="kw">print</span>(<span class="str">"Name:"</span>, name)
+<span class="kw">print</span>(<span class="str">"Role:"</span>, role)
+<span class="kw">print</span>(<span class="str">"Salary:"</span>, salary)</pre>
+    </div>
+    <div class="output-block">Employee Details
+Name: Kishor
+Role: Developer
+Salary: 50000</div>
+  </section>
+
+  <section class="section" id="s19">
+    <div class="section-head"><span class="section-num">19</span><h2>Challenge Project — Student Result Processor</h2></div>
+    <p>Use <code>*marks</code> to separate a name from an unknown number of scores, then compute the average — try it live below.</p>
+    <div class="code-block">
+      <div class="code-head"><div class="dots"><span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span></div><span class="lang">result_processor.py</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre class="code">student = (<span class="str">"Kishor"</span>, <span class="num">85</span>, <span class="num">90</span>, <span class="num">95</span>)
+
+name, <span class="star">*</span>marks = student
+
+<span class="kw">print</span>(<span class="str">"Student:"</span>, name)
+<span class="kw">print</span>(<span class="str">"Marks:"</span>, marks)
+
+average = <span class="fn">sum</span>(marks) / <span class="fn">len</span>(marks)
+
+<span class="kw">print</span>(<span class="str">"Average:"</span>, average)</pre>
+    </div>
+    <div class="output-block">Student: Kishor
+Marks: [85, 90, 95]
+Average: 90.0</div>
+
+    <div class="live-widget">
+      <div class="lw-row">
+        <input type="text" id="studentNameIn" placeholder="Name" value="Kishor">
+        <input type="number" id="markIn" placeholder="Add a mark">
+        <button class="copy-btn" style="padding:8px 16px;" onclick="addStudentMark()">Add Mark</button>
+        <button class="copy-btn" style="padding:8px 16px;" onclick="resetStudent()">Reset</button>
+      </div>
+      <div class="live-output" id="studentLiveOut">Student: Kishor
+Marks: [85, 90, 95]
+Average: 90.0</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="brand-mark">NK</div>
+  <h3>NkTechVision</h3>
+  <p>Free, project-based Python lessons — Module 07 continues building your tuple skills, chapter by chapter.</p>
+  <div class="nav-links">
+    <a class="prev-link" href="#">← Chapter 34: Tuple Methods &amp; Operations</a>
+    <a class="next-link" href="#">Next: Chapter 36 →</a>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement;
+    document.getElementById('progressFill').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  });
+
+  let studentMarks = [85, 90, 95];
+
+  function renderStudent(){
+    const name = document.getElementById('studentNameIn').value || 'Kishor';
+    const out = document.getElementById('studentLiveOut');
+    if(studentMarks.length === 0){
+      out.textContent = 'Student: ' + name + '\nMarks: []\nAverage: N/A';
+      return;
+    }
+    const total = studentMarks.reduce((a,b) => a+b, 0);
+    const avg = (total / studentMarks.length).toFixed(1);
+    out.textContent = 'Student: ' + name + '\nMarks: [' + studentMarks.join(', ') + ']\nAverage: ' + avg;
+  }
+
+  function addStudentMark(){
+    const input = document.getElementById('markIn');
+    const val = input.value;
+    if(val === '' || isNaN(val)) return;
+    studentMarks.push(parseInt(val, 10));
+    input.value = '';
+    renderStudent();
+  }
+
+  function resetStudent(){
+    studentMarks = [85, 90, 95];
+    document.getElementById('studentNameIn').value = 'Kishor';
+    renderStudent();
+  }
+
+  document.getElementById('studentNameIn').addEventListener('input', renderStudent);
+
+  document.querySelectorAll('.acc-item').forEach(item=>{
+    item.querySelector('.acc-q').addEventListener('click',()=>{
+      const isOpen=item.classList.contains('open');
+      document.querySelectorAll('.acc-item').forEach(i=>i.classList.remove('open'));
+      if(!isOpen)item.classList.add('open');
+    });
+  });
+
+  let score=0;
+  document.querySelectorAll('.quiz-card').forEach(card=>{
+    const ci=parseInt(card.dataset.correct,10);
+    card.querySelectorAll('.option').forEach((opt,idx)=>{
+      opt.addEventListener('click',()=>{
+        if(card.dataset.answered)return;
+        card.dataset.answered="true";
+        card.querySelectorAll('.option').forEach((o,i)=>{
+          o.disabled=true;
+          if(i===ci)o.classList.add('correct');
+          else if(i===idx)o.classList.add('wrong');
+        });
+        if(idx===ci){score++;document.getElementById('quizScore').textContent=score;}
+      });
+    });
+  });
+
+  function copyCode(btn){
+    const text=btn.closest('.code-block').querySelector('pre.code').innerText;
+    navigator.clipboard.writeText(text).then(()=>{
+      const orig=btn.textContent;btn.textContent='Copied!';
+      setTimeout(()=>btn.textContent=orig,1200);
+    });
+  }
+</script>
+</body>
+</html>
