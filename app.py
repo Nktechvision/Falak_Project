@@ -12,10 +12,6 @@ from routes.python import python
 from models import db
 import os
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=False)
-
 app.config["JWT_SECRET_KEY"] = "nktechvision_jwt_secret"
 jwt = JWTManager(app)
 
@@ -37,5 +33,6 @@ app.register_blueprint(upload)
 app.register_blueprint(python)
 app.register_blueprint(api)
 
-app.run(debug=True)
-
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
